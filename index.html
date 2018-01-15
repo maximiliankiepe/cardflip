@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Businesscard Flip</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      body, html{
+        width: 100%;
+        height: 100%;
+        background-color: #eee;
+      }
+      h1{
+        font-family: Arial;
+        font-size: 14px;
+        padding: 10px;
+        font-weight: 300;
+      }
+      div{
+        width: 250px;
+        height: 150px;
+        background-color: white;
+        position: absolute;
+        top: calc( 50% - 75px);
+        left: calc( 50% - 125px);
+        box-shadow: 0px 0px 20px 0px rgba(194,194,194,1);
+        cursor: pointer;
+      }
+      .front{
+        display: block;
+      }
+      .back{
+        display: none;
+      }
+    </style>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/velocity.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        var switched = 'true';
+
+        $('#businesscard').mousedown(function(){
+
+          var x = (Math.random() * (-50 - 50));
+          var y = (Math.random() * (-50 - 50));
+          var angle = (Math.random() * (60-320));
+
+          $btn = $(this);
+
+          if ( switched == 'true' ){
+
+            $btn.velocity({
+              translateY: y+"px",
+              translateX: x+"px",
+              rotateY: "90deg",
+              rotateZ: angle+"deg",
+              scale:1.5
+            },
+            {
+              duration:300,
+              easing:"easeInQuad",
+              complete:function(){
+                $('.front').css('display','none');
+                $('.back').css('display','block');
+                switched = 'false';
+              }
+            })
+            .velocity({
+              translateY: y+"px",
+              translateX: x+"px",
+              rotateY: "0deg",
+              rotateZ: angle+"deg",
+              scale:1
+            },
+            {
+              duration:300,
+              easing:"easeOutQuad"
+            })
+
+          } else if ( switched == 'false'){
+
+            $btn.velocity({
+              translateY: y+"px",
+              translateX: x+"px",
+              rotateY: "90deg",
+              rotateZ: angle+"deg",
+              scale:1.5
+            },
+            {
+              duration:300,
+              easing:"easeInQuad",
+              complete:function(){
+                $('.front').css('display','block');
+                $('.back').css('display','none');
+                switched = 'true';
+                console.log('hä');
+              }
+            })
+            .velocity({
+              translateY: y+"px",
+              translateX: x+"px",
+              rotateY: "0deg",
+              rotateZ: angle+"deg",
+              scale:1
+            },
+            {
+              duration:300,
+              easing:"easeOutQuad"
+            })
+          }
+
+          switched = true;
+
+        });
+
+      });
+    </script>
+</head>
+<body>
+  <div id="businesscard">
+    <span class="front">
+      <h1>
+        Maximilian Kiepe
+      </h1>
+    </span>
+    <span class="back">
+      <h1>
+        Brandshofer Deich 45<br>
+        20539 Hamburg<br>
+        + 49 (0) 157 376 447 58<br>
+        helllo@maximiliankiepe.de
+      </h1>
+    </span>
+  </div>
+</body>
+</html>
