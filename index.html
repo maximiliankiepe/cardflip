@@ -43,15 +43,15 @@
       $(document).ready(function(){
 
         var switched = 'true';
-        var x = $(window).width() * 0.5 + (Math.random() * (-50 - 50));
-        var y = $(window).height() * 0.5 + (Math.random() * (-50 - 50));
+        var x = $(window).width() / 2 + (Math.random() * (-50 - 50));
+        var y = $(window).height() / 2 + (Math.random() * (-50 - 50));
         var angle = (Math.random() * (0-360));
 
         $('body').one( "click", function() {
 
           $('#businesscard').velocity({
-            top:  x+'px',
-            left: y+'px',
+            top:  y+'px',
+            left: x+'px',
             rotateZ: angle+"deg",
           },
           {
@@ -60,7 +60,7 @@
           })
 
           $('body, html').css('cursor','auto');
-          
+
         });
 
         $('#businesscard').mousedown(function(){
