@@ -12,6 +12,7 @@
         width: 100%;
         height: 100%;
         background-color: #eee;
+        cursor: pointer;
       }
       h1{
         font-family: Arial;
@@ -24,7 +25,7 @@
         height: 150px;
         background-color: white;
         position: absolute;
-        top: calc( 50% - 75px);
+        top: 150%;
         left: calc( 50% - 125px);
         box-shadow: 0px 0px 20px 0px rgba(194,194,194,1);
         cursor: pointer;
@@ -42,12 +43,31 @@
       $(document).ready(function(){
 
         var switched = 'true';
+        var x = $(window).width() * 0.5 + (Math.random() * (-50 - 50));
+        var y = $(window).height() * 0.5 + (Math.random() * (-50 - 50));
+        var angle = (Math.random() * (0-360));
+
+        $('body').one( "click", function() {
+
+          $('#businesscard').velocity({
+            top:  x+'px',
+            left: y+'px',
+            rotateZ: angle+"deg",
+          },
+          {
+            duration:600,
+            easing:"easeOutQuad"
+          })
+
+          $('body, html').css('cursor','auto');
+          
+        });
 
         $('#businesscard').mousedown(function(){
 
-          var x = (Math.random() * (-50 - 50));
-          var y = (Math.random() * (-50 - 50));
-          var angle = (Math.random() * (60-320));
+          x = (Math.random() * (-50 - 50));
+          y = (Math.random() * (-50 - 50));
+          angle = (Math.random() * (60-320));
 
           $btn = $(this);
 
