@@ -63,15 +63,17 @@
 
         });
 
-        $('#businesscard').mousedown(function(){
+        $('#businesscard').mouseenter(function(){
 
           x = (Math.random() * (-50 - 50));
           y = (Math.random() * (-50 - 50));
-          angle = (Math.random() * (60-320));
+          angle = (Math.random() * (120-320));
 
           $btn = $(this);
 
           if ( switched == 'true' ){
+
+            $('#businesscard').css("pointer-events", "none");
 
             $btn.velocity({
               translateY: y+"px",
@@ -86,7 +88,6 @@
               complete:function(){
                 $('.front').css('display','none');
                 $('.back').css('display','block');
-                switched = 'false';
               }
             })
             .velocity({
@@ -98,10 +99,16 @@
             },
             {
               duration:300,
-              easing:"easeOutQuad"
+              easing:"easeOutQuad",
+              complete:function(){
+                switched = 'false';
+                $btn.css("pointer-events", "auto");
+              }
             })
 
           } else if ( switched == 'false'){
+
+            $('#businesscard').css("pointer-events", "none");
 
             $btn.velocity({
               translateY: y+"px",
@@ -116,8 +123,6 @@
               complete:function(){
                 $('.front').css('display','block');
                 $('.back').css('display','none');
-                switched = 'true';
-                console.log('hä');
               }
             })
             .velocity({
@@ -129,11 +134,13 @@
             },
             {
               duration:300,
-              easing:"easeOutQuad"
+              easing:"easeOutQuad",
+              complete:function(){
+                switched = 'true';
+                $btn.css("pointer-events", "auto");
+              }
             })
           }
-
-          switched = true;
 
         });
 
