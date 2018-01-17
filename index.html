@@ -14,13 +14,18 @@
         background-color: #eee;
         cursor: pointer;
       }
+      main{
+        width: 100%;
+        height: 100%;
+        background-color: #ddd;
+      }
       h1{
         font-family: Arial;
         font-size: 14px;
         padding: 10px;
         font-weight: 300;
       }
-      div{
+      #businesscard{
         width: 250px;
         height: 150px;
         background-color: white;
@@ -29,6 +34,18 @@
         left: calc( 50% - 125px);
         box-shadow: 0px 0px 20px 0px rgba(194,194,194,1);
         cursor: pointer;
+        z-index: 2;
+        pointer-events: none;
+      }
+      #businesscardfake{
+        width: 250px;
+        height: 150px;
+        background-color: transparent;
+        position: absolute;
+        top: 150%;
+        left: calc( 50% - 125px);
+        cursor: pointer;
+        z-index: 1;
       }
       .front{
         display: block;
@@ -47,7 +64,7 @@
         var y = $(window).height() / 2 + (Math.random() * (-50 - 50));
         var angle = (Math.random() * (0-360));
 
-        $('body').one( "click", function() {
+        $('main').one( "click", function() {
 
           $('#businesscard').velocity({
             top:  y+'px',
@@ -59,21 +76,30 @@
             easing:"easeOutQuad"
           })
 
-          $('body, html').css('cursor','auto');
+          $('#businesscardfake').velocity({
+            top:  y+'px',
+            left: x+'px',
+            rotateZ: angle+"deg",
+          },
+          {
+            duration:600,
+            easing:"easeOutQuad"
+          })
 
         });
 
-        $('#businesscard').mouseenter(function(){
+        $('#businesscardfake').mouseenter(function(){
+
+          console.log('mouseenter');
 
           x = (Math.random() * (-50 - 50));
           y = (Math.random() * (-50 - 50));
           angle = (Math.random() * (120-320));
 
-          $btn = $(this);
+          $btn = $('#businesscard');
+          $btnfake = $('#businesscardfake');
 
           if ( switched == 'true' ){
-
-            $('#businesscard').css("pointer-events", "none");
 
             $btn.velocity({
               translateY: y+"px",
@@ -101,14 +127,39 @@
               duration:300,
               easing:"easeOutQuad",
               complete:function(){
+
+              }
+            })
+
+            $btnfake.velocity({
+              translateY: y+"px",
+              translateX: x+"px",
+              rotateZ: angle+"deg",
+              scale:1.5
+            },
+            {
+              duration:300,
+              easing:"easeInQuad",
+              complete:function(){
+                $('.front').css('display','none');
+                $('.back').css('display','block');
+              }
+            })
+            .velocity({
+              translateY: y+"px",
+              translateX: x+"px",
+              rotateZ: angle+"deg",
+              scale:1
+            },
+            {
+              duration:300,
+              easing:"easeOutQuad",
+              complete:function(){
                 switched = 'false';
-                $btn.css("pointer-events", "auto");
               }
             })
 
           } else if ( switched == 'false'){
-
-            $('#businesscard').css("pointer-events", "none");
 
             $btn.velocity({
               translateY: y+"px",
@@ -136,10 +187,38 @@
               duration:300,
               easing:"easeOutQuad",
               complete:function(){
-                switched = 'true';
-                $btn.css("pointer-events", "auto");
+
               }
             })
+
+            $btnfake.velocity({
+              translateY: y+"px",
+              translateX: x+"px",
+              rotateZ: angle+"deg",
+              scale:1.5
+            },
+            {
+              duration:300,
+              easing:"easeInQuad",
+              complete:function(){
+                $('.front').css('display','block');
+                $('.back').css('display','none');
+              }
+            })
+            .velocity({
+              translateY: y+"px",
+              translateX: x+"px",
+              rotateZ: angle+"deg",
+              scale:1
+            },
+            {
+              duration:300,
+              easing:"easeOutQuad",
+              complete:function(){
+                switched = 'true';
+              }
+            })
+
           }
 
         });
@@ -148,6 +227,8 @@
     </script>
 </head>
 <body>
+  <main>
+  </main>
   <div id="businesscard">
     <span class="front">
       <h1>
@@ -161,6 +242,12 @@
         + 49 (0) 157 376 447 58<br>
         helllo@maximiliankiepe.de
       </h1>
+    </span>
+  </div>
+  <div id="businesscardfake">
+    <span class="front">
+    </span>
+    <span class="back">
     </span>
   </div>
 </body>
